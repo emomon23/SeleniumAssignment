@@ -6,6 +6,12 @@ using OpenQA.Selenium.Chrome;
 
 namespace SeleniumTests
 {
+    //*********************************************************************************************************************
+    //** NOTE:  A Note is just a comment I'd like you to read to understand what is happening 
+    //** HINT:  Is something YOU NEED TO DO.
+    //** Start by scanning all the ** NOTE: comments, than go through all of the ** HINT: comments and do your work
+    //*********************************************************************************************************************
+
     //** NOTE:  This [TestClass] annotation tells the test runner that it should look into this class and try and run any tests.  You can comment out this one line and test runner will remove all tests from the Test Explorer window
     [TestClass]
     public class LoginTests
@@ -13,11 +19,11 @@ namespace SeleniumTests
         const string Login_Url = "http://iemosoft.com/selenium-test-login/";
 
         IWebDriver _driver;
-        //** NOTE:  IWebDriver, above, is an interface.  There are many WebDriver implementations of IWebDriver, such as the ChromeDriver, the IEDriver and the FireFoxDriver.
-        //       this _driver object is how we will be interacting with the browser, telling it what buttons to click, etc.
+        //** NOTE:  IWebDriver, above, is an interface.  There are many implementations of IWebDriver, such as the ChromeDriver, the IEDriver and the FireFoxDriver.
+        //       the _driver object will be used for interacting with a Chrome browser, telling it what buttons to click, etc.
 
 
-        //** NOTE:  This [TestInitialize] annotation will cause this function to run before each TEST (tests are identified by the [TestMethod] annotation)
+        //** NOTE:  This [TestInitialize] annotation will cause this function to run BEFORE EACH TEST (tests are identified by the [TestMethod] annotation)
         //          We see that this method will create a new ChromeDriver and pop up a new page for each test (is this the most effiecient way to do this?)
         [TestInitialize]
         public void NaviageToLogin()
