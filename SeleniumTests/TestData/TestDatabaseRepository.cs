@@ -10,7 +10,7 @@ namespace SeleniumTests.TestData
     {
         public string [] GetPatientListForPhysician(string userName)
         {
-            return new string[] { "John Travolta", "Angelena Jolie" };
+            return new string[] { "Angelena Jolie", "John Travolta" };
         }
 
         public bool CheckIfPatientWasCreatedInDatabase(string patientFirstName, string patientLastName, DateTime DOB)
