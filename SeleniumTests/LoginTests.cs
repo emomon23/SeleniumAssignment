@@ -12,15 +12,17 @@ namespace SeleniumTests
     //** Start by scanning all the ** NOTE: comments, than go through all of the ** HINT: comments and do your work
     //*********************************************************************************************************************
 
-    //** NOTE:  This [TestClass] annotation tells the test runner that it should look into this class and try and run any tests.  You can comment out this one line and test runner will remove all tests from the Test Explorer window
+    //** NOTE:  This [TestClass] annotation tells the test runner that it should look into this class and try and run any tests.  
+    //**        You can comment out this one line and test runner will remove all tests from the Test Explorer window
     [TestClass]
     public class LoginTests
     {
         const string Login_Url = "http://iemosoft.com/selenium-test-login/";
 
         IWebDriver _driver;
-        //** NOTE:  IWebDriver, above, is an interface.  There are many implementations of IWebDriver, such as the ChromeDriver, the IEDriver and the FireFoxDriver.
-        //       the _driver object will be used for interacting with a Chrome browser, telling it what buttons to click, etc.
+        //** NOTE:  IWebDriver, above, is an interface.  There are many implementations of IWebDriver, such as the ChromeDriver, 
+        //          the IEDriver and the FireFoxDriver.
+        //          The _driver object will be used for interacting with a Chrome browser, telling it what buttons to click, etc.
 
 
         //** NOTE:  This [TestInitialize] annotation will cause this function to run BEFORE EACH TEST (tests are identified by the [TestMethod] annotation)
@@ -55,8 +57,9 @@ namespace SeleniumTests
             _driver.FindElement(By.Id("USER_NAME_ELEMENT_ID_HERE")).SendKeys("aBadBadUserName");
 
 
-            //** NOTE: below, we are using the _driver object to ask the ChromeDriver to find a element on the pages with an Id of 'password'), then we're going to send the value we want on that input control
-            _driver.FindElement(By.Id("password")).SendKeys("P@assword");
+            //** NOTE: Below, we are using the _driver object to ask the ChromeDriver to find a element on the pages 
+            //         with an Id of 'password' and we'll send the value we want on that input control
+            _driver.FindElement(By.Id("password")).SendKeys("P@ssword");
 
             //** HINT **.   Next click the submit button here.
             //              Manually navigate to http://iemosoft.com/selenium-test-login/ in a chrome browser
@@ -69,13 +72,14 @@ namespace SeleniumTests
             var submitButtonXPath = ""; //**** PUT THE XPATH VALUE HERE!!!
             _driver.FindElement(By.XPath(submitButtonXPath)).Click();
 
-            //Sleep for 200 milliseconds to give the message a chance to display (fyi: Having sleep statements sprinkled throughout your test is frowned upon in general, but is often unavoidable)
+            // Sleep for 200 milliseconds to give the message a chance to display
             System.Threading.Thread.Sleep(200);
+            //**NOTE: Having sleep statements sprinkled throughout your test is frowned upon in general, but is often unavoidable.
 
             //** NOTE: Now see if the error message is displayed
             var errorMessageIsDisplayed = _driver.FindElement(By.Id("errorMessage")).Displayed;
 
-            //** NOTE: The Assert class as static methods that will fail a test if the condition does not pass
+            //** NOTE: The Assert class has static methods that will fail a test if the condition does not pass
             Assert.IsTrue(errorMessageIsDisplayed, "No 'Invalid Username or Password' message displayed");
 
             //The error message should disappear
@@ -125,7 +129,10 @@ namespace SeleniumTests
 
             /*Assert:
              * The admin is taken to the admin page
-             * and verify the random number is between 0 and 100
+             */
+
+            /*Assert:
+             * The random number is between 0 and 100
              * HINT: Use By.ClassName
              *       Google 'Selenium getting text from div'
              */
@@ -133,7 +140,7 @@ namespace SeleniumTests
 
 
         //** NOTE:  After completeing this section of the Selenium Assignment, if you understand the code above and what you've done
-        //          you now know more than 70% of the functions you will use in Selenium automation, there are other method of course, but these
-        //          are the most commonly used.
+        //          you now know more than 70% of the functions you will use in Selenium automation, there are other methods of course, 
+        //          but these are the most commonly used.
     }
 }
