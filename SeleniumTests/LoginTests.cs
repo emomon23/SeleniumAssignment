@@ -18,6 +18,8 @@ namespace SeleniumTests
     public class LoginTests
     {
         const string Login_Url = "http://iemosoft.com/selenium-test-login/";
+        const string Physician_Url = "selenium-test-physician";
+        const string Nurse_Url_Test = "selenium-test-nurse";
 
         IWebDriver _driver;
         //** NOTE:  IWebDriver, above, is an interface.  There are many implementations of IWebDriver, such as the ChromeDriver, the IEDriver 
@@ -50,7 +52,7 @@ namespace SeleniumTests
         public void AnInvalidUserName_WithAValidPassword()
         {
             // does the test login
-            do_login("aBadBadUserName", "P@assword");
+            DoLogin("aBadBadUserName", "P@assword");
 
             // waits for error message to appear
             System.Threading.Thread.Sleep(200);
@@ -76,7 +78,7 @@ namespace SeleniumTests
         [TestMethod]
         public void AValidUserName_WithAnInvalidPassword()
         {
-            do_login("admin", "bad_password");
+            DoLogin("admin", "bad_password");
 
             System.Threading.Thread.Sleep(200);
 
@@ -94,34 +96,33 @@ namespace SeleniumTests
         public void A_Physician_Logs_In_Successfully()
         {
             // does doc login
-            do_login("dr smith", "P@ssword");
+            DoLogin("dr smith", "P@ssword");
 
 
             // waits for page to load
             Thread.Sleep(3000);
 
             // grabs url
-            String doc_url = _driver.Url;
+            string Doc_Url = _driver.Url;
 
             // compares expected url to actual and assters they are equil
-            Assert.AreEqual("http://iemosoft.com/selenium-test-physician/", doc_url);
+            Assert.IsTrue(Doc_Url.Contains(Physician_Url));
         }
 
         [TestMethod]
         public void A_Nurse_Logs_In_Successfully()
         {
             // does nurse login
-            do_login("nurse jones", "P@ssword");
+            DoLogin("nurse jones", "P@ssword");
 
             // waits for page to load
             Thread.Sleep(3000);
 
             // grabs url
-            String doc_url = _driver.Url;
+            String Nurse_Url = _driver.Url;
 
             // compares expected url to actual and assters they are equil
-            Assert.AreEqual("http://iemosoft.com/selenium-test-nurse/", doc_url);
-
+            Assert.IsTrue(Nurse_Url.Contains(Nurse_Url_Test));
         }
 
         [TestMethod]
@@ -129,7 +130,7 @@ namespace SeleniumTests
         {
             //throw new NotImplementedException("Test not implemented");
 
-            do_login("admin", "P@ssword");
+            DoLogin("admin", "P@ssword");
 
             int numb = get_number();
             Assert.IsTrue(numb >= 0 && numb <= 100);
@@ -149,7 +150,7 @@ namespace SeleniumTests
     
 
         // login helper functopn
-        private void do_login(string user_name, string password)
+        private void DoLogin(string user_name, string password)
         {
             _driver.FindElement(By.Id("userName")).SendKeys(user_name);
             _driver.FindElement(By.Id("password")).SendKeys(password);
@@ -160,7 +161,7 @@ namespace SeleniumTests
         // div scraper function
         private int get_number()
         {
-            String scraped = _driver.FindElement(By.XPath("/html/body/div/div[3]/div[1]/div[1]/div/div[2]/div")).Text;
+            string scraped = _driver.FindElement(By.ClassName("msg")).Text;
 
             if (int.TryParse(scraped, out int parsed))
             {
