@@ -38,7 +38,7 @@ namespace SeleniumTests
         [TestCleanup]
         public void CloseBrowser()
         {
-           
+
             _driver.Close();
 
             //** NOTE: Always check if an object has a 'Dispose' method, if it does, call it when you're done using it.
@@ -49,84 +49,90 @@ namespace SeleniumTests
         [TestMethod]
         public void AnInvalidUserName_WithAValidPassword()
         {
-            //** HINT **.   Manually navigate to http://iemosoft.com/selenium-test-login/ in a chrome browser
-            //              Right click the 'Username' INPUT control and select 'Inspect'
-            //              Note the id attribute (eg. <input id="userName">) 
-            //              Replace the string 'USER_NAME_ELEMENT_ID_HERE' with the id value you found in the html
-            _driver.FindElement(By.Id("USER_NAME_ELEMENT_ID_HERE")).SendKeys("aBadBadUserName");
+            // does the test login
+            do_login("aBadBadUserName", "P@assword");
 
-
-            //** NOTE: below, we are using the _driver object to ask the ChromeDriver to find a element on the pages with an Id of 'password'), 
-            //then we're going to send the value we want on that input control
-            _driver.FindElement(By.Id("password")).SendKeys("P@assword");
-
-            //** HINT **.   Next click the submit button here.
-            //              Manually navigate to http://iemosoft.com/selenium-test-login/ in a chrome browser
-            //              Right click the 'Submit' button and select 'Inspect'
-            //              Notice there is no Id attribute.
-            //              In the Elementents tab, <input type='button' onclick='onSubmit()' value='Submit'> should be highlighted, 
-            //              Right click on <input type="button"... and select Copy -> Copy XPath
-            //              Paste the xpath value in the submitButtonXPath variable below
-
-            var submitButtonXPath = ""; //**** PUT THE XPATH VALUE HERE!!!
-            _driver.FindElement(By.XPath(submitButtonXPath)).Click();
-
-            //Sleep for 200 milliseconds to give the message a chance to display (fyi: Having sleep statements sprinkled throughout your test is 
-            //frowned upon in general, but is often unavoidable)
+            // waits for error message to appear
             System.Threading.Thread.Sleep(200);
 
-            //** NOTE: Now see if the error message is displayed
+            // grabs error message
             var errorMessageIsDisplayed = _driver.FindElement(By.Id("errorMessage")).Displayed;
 
-            //** NOTE: The Assert class has static methods that will fail a test if the condition does not pass
+            // asserts it displayed correctly
             Assert.IsTrue(errorMessageIsDisplayed, "No 'Invalid Username or Password' message displayed");
 
-            //The error message should disappear
+            // waits for the disappear
             Thread.Sleep(5000);
+
+            // tries to grab the message
             errorMessageIsDisplayed = _driver.FindElement(By.Id("errorMessage")).Displayed;
+
+            // assers it was gone
             Assert.IsFalse(errorMessageIsDisplayed, "Error message is displayed but should have faded out");
 
-            
+
         }
 
         [TestMethod]
         public void AValidUserName_WithAnInvalidPassword()
         {
-            //** HINT: View the login page in the brower,  Valid username and password combinations have been provided right from the login page
-            //         Examine the test above and write the test where the username is valid, but the password is invalid
-            throw new NotImplementedException("Test not implemented");
-            
-            /*Assert:
-             * Error message displays and then fades out
-             */
+            do_login("admin", "bad_password");
+
+            System.Threading.Thread.Sleep(200);
+
+            var errorMessageIsDisplayed = _driver.FindElement(By.Id("errorMessage")).Displayed;
+
+            Assert.IsTrue(errorMessageIsDisplayed, "No 'Invalid Username or Password' message displayed");
+
+            Thread.Sleep(5000);
+
+            errorMessageIsDisplayed = _driver.FindElement(By.Id("errorMessage")).Displayed;
+            Assert.IsFalse(errorMessageIsDisplayed, "Error message is displayed but should have faded out");
         }
 
         [TestMethod]
         public void A_Physician_Logs_In_Successfully()
         {
-            throw new NotImplementedException("Test not implemented");
-           
-            /*Assert:
-             * The physician is taken to the physician page (iemosoft.com/selenium-test-physician)
-             * HINT: use _driver.Url
-             */
+            // does doc login
+            do_login("dr smith", "P@ssword");
+
+
+            // waits for page to load
+            Thread.Sleep(3000);
+
+            // grabs url
+            String doc_url = _driver.Url;
+
+            // compares expected url to actual and assters they are equil
+            Assert.AreEqual("http://iemosoft.com/selenium-test-physician/", doc_url);
         }
 
         [TestMethod]
         public void A_Nurse_Logs_In_Successfully()
         {
-            throw new NotImplementedException("Test not implemented");
+            // does nurse login
+            do_login("nurse jones", "P@ssword");
 
-            /*Assert:
-             * The nurse is taken to the nurse page
-             */
-         
+            // waits for page to load
+            Thread.Sleep(3000);
+
+            // grabs url
+            String doc_url = _driver.Url;
+
+            // compares expected url to actual and assters they are equil
+            Assert.AreEqual("http://iemosoft.com/selenium-test-nurse/", doc_url);
+
         }
 
         [TestMethod]
         public void An_Administrator_Logs_In_Successfully()
         {
-            throw new NotImplementedException("Test not implemented");
+            //throw new NotImplementedException("Test not implemented");
+
+            do_login("admin", "P@ssword");
+
+            int numb = get_number();
+            Assert.IsTrue(numb >= 0 && numb <= 100);
 
             /*Assert:
              * The admin is taken to the admin page
@@ -140,5 +146,30 @@ namespace SeleniumTests
         //** NOTE:  After completeing this section of the Selenium Assignment, if you understand the code above and what you've done
         //          you now know more than 70% of the functions you will use in Selenium automation, there are other methods of course, 
         //          but these are the most commonly used.
+    
+
+        // login helper functopn
+        private void do_login(string user_name, string password)
+        {
+            _driver.FindElement(By.Id("userName")).SendKeys(user_name);
+            _driver.FindElement(By.Id("password")).SendKeys(password);
+            var submitButtonXPath = "/html/body/div/div[3]/div[1]/div[1]/div/div[2]/form/input[3]"; //**** PUT THE XPATH VALUE HERE!!!
+            _driver.FindElement(By.XPath(submitButtonXPath)).Click();
+        }
+
+        // div scraper function
+        private int get_number()
+        {
+            String scraped = _driver.FindElement(By.XPath("/html/body/div/div[3]/div[1]/div[1]/div/div[2]/div")).Text;
+
+            if (int.TryParse(scraped, out int parsed))
+            {
+                return parsed;
+            }
+            else
+            {
+                return -1;
+            }
+        }
     }
 }
