@@ -18,7 +18,7 @@ namespace SeleniumTests
     public class LoginTests
     {
         const string Login_Url = "http://iemosoft.com/selenium-test-login/";
-        const string Physician_Url = "selenium-test-physician";
+        const string Physician_Url_Test = "selenium-test-physician";
         const string Nurse_Url_Test = "selenium-test-nurse";
 
         IWebDriver _driver;
@@ -106,7 +106,7 @@ namespace SeleniumTests
             string Doc_Url = _driver.Url;
 
             // compares expected url to actual and assters they are equil
-            Assert.IsTrue(Doc_Url.Contains(Physician_Url));
+            Assert.IsTrue(Doc_Url.Contains(Physician_Url_Test));
         }
 
         [TestMethod]
@@ -133,7 +133,7 @@ namespace SeleniumTests
             DoLogin("admin", "P@ssword");
 
             int numb = get_number();
-            Assert.IsTrue(numb >= 0 && numb <= 100);
+            Assert.IsTrue(numb >= 0 && numb <= 100, "Number is not between 0 and 100");
 
             /*Assert:
              * The admin is taken to the admin page
