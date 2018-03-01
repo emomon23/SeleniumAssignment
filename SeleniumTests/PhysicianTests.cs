@@ -238,7 +238,7 @@ namespace SeleniumTests
             // wait for message to fade
             Thread.Sleep(5000);
 
-            // assure message has faded
+            // assure message has faded 
             flashMessageIsDisplayed = _driver.FindElement(By.Id(messageId)).Displayed;
             Assert.IsFalse(flashMessageIsDisplayed, "Error message is displayed but should have faded out");
 
