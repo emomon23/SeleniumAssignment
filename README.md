@@ -7,11 +7,5 @@ Instructions:
 5. Click clone (If you get an error message, try 1 more time)
 6. Locate and open in Visual Studio, the SeleniumTests.sln solution, found in the target directory you specified in step #4.  
 
-
-Run the tests:
- - Open and BUILD the solution in Visual Studio.
- - After you've built the solution, select from the menu bar, TEST -> Run -> All Tests
- - All should fail!
-   
 The Assignment: 
    - Visit http://iemosoft.com/selenium-assignment/ for the assignment
